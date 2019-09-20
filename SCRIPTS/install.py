@@ -37,18 +37,18 @@ def downloadport(port_dir):
     filename = url.split('/')[-1]
     filepath = os.path.join(port_dir, filename)
     if not os.path.exists(filepath):
-      print('Downloading %s' % filepath)
+      print('Downloading %s' % filename)
       class downloadprogress(tqdm): # progress report
         def update_to(self, b=1, bsize=1, tsize=None):
           if tsize is not None:
               self.total = tsize
           self.update(b * bsize - self.n)
-      with downloadprogress(unit='B', unit_scale=True, miniters=1, desc=filename) as t:
+      with downloadprogress(unit='B', unit_scale=True, miniters=1, desc=filename, ascii=True) as t:
         urllib.request.urlretrieve(url, filename=filepath, reporthook=t.update_to)
     if not os.path.exists(filepath):
       print('Warning: port download failed [%s]' % url)
     else:
-      print('Extracting %s' % filepath)
+      print('Extracting %s' % filename)
       with zipfile.ZipFile(filepath, 'r') as zip_ref:
           zip_ref.extractall(port_dir)
   else:
@@ -82,6 +82,8 @@ if not os.path.exists(dst_dir):
 
 for port in os.scandir(repo_dir):
   if port.name.islower() and port.name[0] != '.':
+    print('Installing port %s' % port.name)
     if port.name in ['aws-sdk-cpp', 'vmime']:
       downloadport(port.path)
     copytree(port.path, dst_dir)
+print('Done.')
