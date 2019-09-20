@@ -1,5 +1,7 @@
 PORTS/*
-aws-sdk-cpp/aws-sdk-cpp/*
 aws-sdk-cpp/aws-sdk-cpp.zip
 vmime/vmime.zip
-vmime/vmime/*
+aws-sdk-cpp/include/*
+aws-sdk-cpp/lib/*
+vmime/include/*
+vmime/lib/*
